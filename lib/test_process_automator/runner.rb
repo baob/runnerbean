@@ -24,9 +24,23 @@ module TestProcessAutomator
 
     def generic_command(command, *process_names)
       processes = processes_from_names(*process_names)
+
       request_log_files(*processes)
+
       commands = find_commands(command, *processes)
       execute(*commands)
+
+      sleep_times = find_sleep_times(command, *processes)
+      sleep_for(*sleep_times)
+    end
+
+    def sleep_for(*sleep_times)
+      sleep(sleep_times.max) unless sleep_times.size == 0
+    end
+
+    def find_sleep_times(command, *processes)
+      sleep_getter = "sleep_after_#{command}".to_sym
+      processes.map(&sleep_getter).compact
     end
 
     def execute(*commands)

@@ -10,6 +10,8 @@ RSpec.describe TestProcessAutomator::Runner do
     double('the frontend',
            kill_command: the_frontend_kill,
            start_command: the_frontend_start,
+           sleep_after_start: 7,
+           sleep_after_kill: 2,
            log_file_prefix: nil
           )
   end
@@ -17,9 +19,12 @@ RSpec.describe TestProcessAutomator::Runner do
   let(:the_worker) do
     double('the worker',
            kill_command: the_worker_kill,
+           sleep_after_kill: 4,
            log_file_prefix: nil
           )
   end
+  before { allow(runner).to receive(:system).with(anything) }
+  before { allow(runner).to receive(:sleep).with(anything) }
 
   describe 'initalised with a name' do
     let(:name) { 'a_name' }
@@ -70,6 +75,11 @@ RSpec.describe TestProcessAutomator::Runner do
           expect(the_frontend).to receive(:log_file_prefix).with(name)
           subject
         end
+
+        it 'sleeps for specified time' do
+          expect(runner).to receive(:sleep).with(the_frontend.sleep_after_start)
+          subject
+        end
       end
 
       describe '#start!(:backend)' do
@@ -99,7 +109,6 @@ RSpec.describe TestProcessAutomator::Runner do
 
         describe '#kill!(:worker, :frontend)' do
           subject { runner.kill!(:worker, :frontend) }
-          before { allow(runner).to receive(:system).with(anything) }
 
           it 'runs shell command specified for worker' do
             expect(runner).to receive(:system).with(the_worker_kill)
