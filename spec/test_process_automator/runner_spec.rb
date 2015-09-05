@@ -1,3 +1,4 @@
+require 'test_process_automator'
 require 'test_process_automator/runner'
 
 RSpec.describe TestProcessAutomator::Runner do
@@ -45,6 +46,14 @@ RSpec.describe TestProcessAutomator::Runner do
         it 'runs shell command specified for frontend' do
           expect(automator).to receive(:system).with(the_frontend_start)
           subject
+        end
+      end
+
+      describe '#start!(:backend)' do
+        subject { automator.start!(:backend) }
+
+        it 'raises not defined exception' do
+          expect { subject }.to raise_error(::TestProcessAutomator::ProcessNotDefined)
         end
       end
 

@@ -31,6 +31,8 @@ module TestProcessAutomator
 
     def process_from_name(name)
       process_index.fetch(name)
+    rescue KeyError => e
+      raise ProcessNotDefined, e.message
     end
 
     def process_index

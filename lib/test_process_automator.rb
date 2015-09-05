@@ -5,4 +5,6 @@ module TestProcessAutomator
   def self.tpa_runner
     TestProcessAutomator::Runner.new
   end
+
+  class ProcessNotDefined < Exception; end
 end
