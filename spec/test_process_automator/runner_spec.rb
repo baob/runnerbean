@@ -28,6 +28,22 @@ RSpec.describe TestProcessAutomator::Runner do
       specify { expect(subject).to be(name) }
     end
 
+    context 'and with an incomplete process defined' do
+      let(:bad_process) do
+        class BadProcess; end
+        BadProcess
+      end
+      before { runner.add_process(bad_process: bad_process) }
+
+      describe '#start!(:bad_process)' do
+        subject { runner.start!(:bad_process) }
+
+        it 'raises no method error' do
+          expect { subject }.to raise_error(NoMethodError)
+        end
+      end
+    end
+
     context 'and with a :frontend process injected' do
       before { runner.add_process(frontend: the_frontend) }
 
