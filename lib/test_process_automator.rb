@@ -1,5 +1,8 @@
 require 'test_process_automator/version'
+require 'test_process_automator/runner'
 
 module TestProcessAutomator
-  # Your code goes here...
+  def self.tpa_runner
+    TestProcessAutomator::Runner.new
+  end
 end
