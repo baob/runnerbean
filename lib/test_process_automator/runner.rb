@@ -23,11 +23,27 @@ module TestProcessAutomator
     private
 
     def generic_command(command, *process_names)
-      processes = process_names.map { |pn| process_from_name(pn) }
-      processes.each { |p| p.log_file_prefix(name) }
-      delegated_command = "#{command}_command".to_sym
-      commands = processes.map(&delegated_command).compact
+      processes = processes_from_names(*process_names)
+      request_log_files(*processes)
+      commands = find_commands(command, *processes)
+      execute(*commands)
+    end
+
+    def execute(*commands)
       commands.map { |k| system(k) } unless commands.size == 0
+    end
+
+    def find_commands(command, *processes)
+      command_getter = "#{command}_command".to_sym
+      processes.map(&command_getter).compact
+    end
+
+    def processes_from_names(*process_names)
+      process_names.map { |pn| process_from_name(pn) }
+    end
+
+    def request_log_files(*processes)
+      processes.each { |p| p.log_file_prefix(name) }
     end
 
     def process_from_name(name)
