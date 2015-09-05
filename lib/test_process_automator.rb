@@ -1,4 +1,4 @@
-require "test_process_automator/version"
+require 'test_process_automator/version'
 
 module TestProcessAutomator
   # Your code goes here...
