@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = TestProcessAutomator::VERSION
   spec.authors       = ["baob"]
   spec.email         = ["coder@onesandthrees.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Automates starting and stopping processes for testing.}
+  #spec.description   = %q{TODO: Write a longer description. Optional.}
   spec.homepage      = ""
   spec.license       = "MIT"
 

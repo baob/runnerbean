@@ -1,6 +1,6 @@
 # TestProcessAutomator
 
-TODO: Write a gem description
+Automates starting and stopping processes for testing.
 
 ## Installation
 
