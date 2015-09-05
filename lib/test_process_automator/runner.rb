@@ -13,12 +13,21 @@ module TestProcessAutomator
     end
 
     def kill!(*process_names)
-      processes = process_names.map { |pn| process_from_name(pn) }
-      kills = processes.map(&:kill_command).compact
-      kills.map { |k| system(k) } unless kills.size == 0
+      generic_command(:kill, *process_names)
+    end
+
+    def start!(*process_names)
+      generic_command(:start, *process_names)
     end
 
     private
+
+    def generic_command(command, *process_names)
+      processes = process_names.map { |pn| process_from_name(pn) }
+      delegated_command = "#{command}_command".to_sym
+      commands = processes.map(&delegated_command).compact
+      commands.map { |k| system(k) } unless commands.size == 0
+    end
 
     def process_from_name(name)
       process_index.fetch(name)

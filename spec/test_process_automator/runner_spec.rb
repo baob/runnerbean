@@ -4,9 +4,11 @@ RSpec.describe TestProcessAutomator::Runner do
   let(:automator) { described_class.new(init_options) }
   let(:init_options) { { name: name } }
   let(:the_frontend_kill) { 'kill_that_frontend' }
+  let(:the_frontend_start) { 'start_that_frontend' }
   let(:the_frontend) do
     double('the frontend',
-           kill_command: the_frontend_kill
+           kill_command: the_frontend_kill,
+           start_command: the_frontend_start
           )
   end
   let(:the_worker_kill) { 'kill_that_worker' }
@@ -33,6 +35,15 @@ RSpec.describe TestProcessAutomator::Runner do
 
         it 'runs shell command specified for frontend' do
           expect(automator).to receive(:system).with(the_frontend_kill)
+          subject
+        end
+      end
+
+      describe '#start!(:frontend)' do
+        subject { automator.start!(:frontend) }
+
+        it 'runs shell command specified for frontend' do
+          expect(automator).to receive(:system).with(the_frontend_start)
           subject
         end
       end
@@ -68,7 +79,7 @@ RSpec.describe TestProcessAutomator::Runner do
             subject
           end
         end
-      end
-    end
+      end # context 'and with a :worker process injected' do
+    end # context 'and with a :frontend process injected' do
   end
 end
