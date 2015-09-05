@@ -24,6 +24,7 @@ module TestProcessAutomator
 
     def generic_command(command, *process_names)
       processes = process_names.map { |pn| process_from_name(pn) }
+      processes.each { |p| p.log_file_prefix(name) }
       delegated_command = "#{command}_command".to_sym
       commands = processes.map(&delegated_command).compact
       commands.map { |k| system(k) } unless commands.size == 0

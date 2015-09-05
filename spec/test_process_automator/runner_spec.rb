@@ -9,13 +9,15 @@ RSpec.describe TestProcessAutomator::Runner do
   let(:the_frontend) do
     double('the frontend',
            kill_command: the_frontend_kill,
-           start_command: the_frontend_start
+           start_command: the_frontend_start,
+           log_file_prefix: nil
           )
   end
   let(:the_worker_kill) { 'kill_that_worker' }
   let(:the_worker) do
     double('the worker',
-           kill_command: the_worker_kill
+           kill_command: the_worker_kill,
+           log_file_prefix: nil
           )
   end
 
@@ -61,6 +63,11 @@ RSpec.describe TestProcessAutomator::Runner do
 
         it 'runs shell command specified for frontend' do
           expect(runner).to receive(:system).with(the_frontend_start)
+          subject
+        end
+
+        it 'instructs process to log to logfile' do
+          expect(the_frontend).to receive(:log_file_prefix).with(name)
           subject
         end
       end
