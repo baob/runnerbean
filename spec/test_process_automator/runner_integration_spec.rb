@@ -5,6 +5,7 @@ module TestProcessAutomator
   RSpec.describe Runner do
     let(:runner) { described_class.new(init_options) }
     let(:init_options) { { name: name } }
+    let(:name) { 'a_name' }
     let(:the_frontend_kill) { 'kill_that_frontend' }
     let(:the_frontend_start) { 'start_that_frontend' }
     let(:the_frontend) do
@@ -27,32 +28,8 @@ module TestProcessAutomator
     before { allow(Kernel).to receive(:system).with(anything) }
     before { allow(Kernel).to receive(:sleep).with(anything) }
 
-    describe 'initalised with a name' do
-      let(:name) { 'a_name' }
-
-      describe '#name' do
-        subject { runner.name }
-
-        specify { expect(subject).to be(name) }
-      end
-
-      context 'and with an incomplete process defined' do
-        let(:bad_process) do
-          class BadProcess; end
-          BadProcess
-        end
-        before { runner.add_process(bad_process: bad_process) }
-
-        describe '#start!(:bad_process)' do
-          subject { runner.start!(:bad_process) }
-
-          it 'raises no method error' do
-            expect { subject }.to raise_error(NoMethodError)
-          end
-        end
-      end
-
-      context 'and with a :frontend process injected' do
+    describe 'integration with process groups' do
+      context 'with a :frontend process injected' do
         before { runner.add_process(frontend: the_frontend) }
 
         describe '#kill!(:frontend)' do
@@ -91,7 +68,7 @@ module TestProcessAutomator
           end
         end
 
-        context 'and with a :worker process injected' do
+        context 'with a :worker process injected' do
           before { runner.add_process(worker: the_worker) }
 
           describe '#kill!(:worker)' do
@@ -121,8 +98,8 @@ module TestProcessAutomator
               subject
             end
           end
-        end # context 'and with a :worker process injected' do
-      end # context 'and with a :frontend process injected' do
+        end # context 'with a :worker process injected' do
+      end # context 'with a :frontend process injected' do
     end
   end
 end
