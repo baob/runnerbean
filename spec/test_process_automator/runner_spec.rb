@@ -1,126 +1,90 @@
 require 'test_process_automator'
 require 'test_process_automator/runner'
 
-RSpec.describe TestProcessAutomator::Runner do
-  let(:runner) { described_class.new(init_options) }
-  let(:init_options) { { name: name } }
-  let(:the_frontend_kill) { 'kill_that_frontend' }
-  let(:the_frontend_start) { 'start_that_frontend' }
-  let(:the_frontend) do
-    double('the frontend',
-           kill_command: the_frontend_kill,
-           start_command: the_frontend_start,
-           sleep_after_start: 7,
-           sleep_after_kill: 2,
-           :'log_file_prefix=' => nil
-          )
-  end
-  let(:the_worker_kill) { 'kill_that_worker' }
-  let(:the_worker) do
-    double('the worker',
-           kill_command: the_worker_kill,
-           sleep_after_kill: 4,
-           :'log_file_prefix=' => nil
-          )
-  end
-  before { allow(runner).to receive(:system).with(anything) }
-  before { allow(runner).to receive(:sleep).with(anything) }
+module TestProcessAutomator
+  RSpec.describe Runner do
+    let(:runner) { described_class.new(init_options) }
+    let(:init_options) { { name: the_runner_name } }
+    let(:the_frontend) { double('the frontend') }
+    let(:the_worker) { double('the worker') }
+    let(:a_process_group) { double('a process group', :'name=' => nil) }
 
-  describe 'initalised with a name' do
-    let(:name) { 'a_name' }
+    describe 'initalised with a name' do
+      let(:the_runner_name) { 'a_name' }
 
-    describe '#name' do
-      subject { runner.name }
+      describe '#name' do
+        specify { expect(runner.name).to be(the_runner_name) }
+      end
 
-      specify { expect(subject).to be(name) }
+      context 'with a :frontend process injected' do
+        before { runner.add_process(frontend: the_frontend) }
+
+        context 'and with a :worker process injected' do
+          before { runner.add_process(worker: the_worker) }
+
+          describe '#group(:worker)' do
+            subject { runner.group(:worker) }
+
+            it 'returns process_group initialised with worker' do
+              expect(ProcessGroup).to receive(:new).with(the_worker).and_return(a_process_group)
+              expect(subject).to be(a_process_group)
+            end
+          end
+
+          describe '#group(:worker, :frontend)' do
+            subject { runner.group(:worker, :frontend) }
+
+            it 'returns process_group initialised with worker and frontend' do
+              expect(ProcessGroup).to receive(:new).with(the_worker, the_frontend).and_return(a_process_group)
+              expect(subject).to be(a_process_group)
+            end
+          end
+
+          describe '#start!(:frontend)' do
+            subject { runner.start!(:frontend) }
+            before do
+              allow(a_process_group).to receive(:start!)
+              allow(ProcessGroup).to receive(:new).with(the_frontend).and_return(a_process_group)
+            end
+
+            it 'returns process_group initialised with frontend' do
+              expect(ProcessGroup).to receive(:new).with(the_frontend).and_return(a_process_group)
+              expect(subject).to be(a_process_group)
+            end
+
+            it 'calls .start! on the process group' do
+              expect(a_process_group).to receive(:start!)
+              subject
+            end
+          end
+
+          describe '#kill!(:worker)' do
+            subject { runner.kill!(:worker) }
+            before do
+              allow(a_process_group).to receive(:kill!)
+              allow(ProcessGroup).to receive(:new).with(the_worker).and_return(a_process_group)
+            end
+
+            it 'returns process_group initialised with worker' do
+              expect(ProcessGroup).to receive(:new).with(the_worker).and_return(a_process_group)
+              expect(subject).to be(a_process_group)
+            end
+
+            it 'calls .kill! on the process group' do
+              expect(a_process_group).to receive(:kill!)
+              subject
+            end
+          end
+
+          describe '#start!(:backend)' do
+            subject { runner.start!(:backend) }
+
+            it 'raises not defined exception' do
+              expect { subject }.to raise_error(::TestProcessAutomator::ProcessNotDefined)
+            end
+          end
+        end
+      end
     end
-
-    context 'and with an incomplete process defined' do
-      let(:bad_process) do
-        class BadProcess; end
-        BadProcess
-      end
-      before { runner.add_process(bad_process: bad_process) }
-
-      describe '#start!(:bad_process)' do
-        subject { runner.start!(:bad_process) }
-
-        it 'raises no method error' do
-          expect { subject }.to raise_error(NoMethodError)
-        end
-      end
-    end
-
-    context 'and with a :frontend process injected' do
-      before { runner.add_process(frontend: the_frontend) }
-
-      describe '#kill!(:frontend)' do
-        subject { runner.kill!(:frontend) }
-
-        it 'runs shell command specified for frontend' do
-          expect(runner).to receive(:system).with(the_frontend_kill)
-          subject
-        end
-      end
-
-      describe '#start!(:frontend)' do
-        subject { runner.start!(:frontend) }
-
-        it 'runs shell command specified for frontend' do
-          expect(runner).to receive(:system).with(the_frontend_start)
-          subject
-        end
-
-        it 'instructs process to log to logfile' do
-          expect(the_frontend).to receive(:log_file_prefix=).with(name)
-          subject
-        end
-
-        it 'sleeps for specified time' do
-          expect(runner).to receive(:sleep).with(the_frontend.sleep_after_start)
-          subject
-        end
-      end
-
-      describe '#start!(:backend)' do
-        subject { runner.start!(:backend) }
-
-        it 'raises not defined exception' do
-          expect { subject }.to raise_error(::TestProcessAutomator::ProcessNotDefined)
-        end
-      end
-
-      context 'and with a :worker process injected' do
-        before { runner.add_process(worker: the_worker) }
-
-        describe '#kill!(:worker)' do
-          subject { runner.kill!(:worker) }
-
-          it 'runs shell command specified for worker' do
-            expect(runner).to receive(:system).with(the_worker_kill)
-            subject
-          end
-
-          it 'does not runs shell command specified for frontend' do
-            expect(runner).to_not receive(:system).with(the_frontend_kill)
-            subject
-          end
-        end
-
-        describe '#kill!(:worker, :frontend)' do
-          subject { runner.kill!(:worker, :frontend) }
-
-          it 'runs shell command specified for worker' do
-            expect(runner).to receive(:system).with(the_worker_kill)
-            subject
-          end
-
-          it 'runs shell command specified for frontend' do
-            expect(runner).to receive(:system).with(the_frontend_kill)
-            subject
-          end
-        end
-      end # context 'and with a :worker process injected' do
-    end # context 'and with a :frontend process injected' do
   end
 end
