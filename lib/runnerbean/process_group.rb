@@ -28,7 +28,7 @@ module Runnerbean
     end
 
     def generic_command(command)
-      request_log_files
+      set_group_name_on_processes
 
       commands = find_commands(command)
       execute(*commands)
@@ -37,7 +37,7 @@ module Runnerbean
       sleep_for(*sleep_times)
     end
 
-    def request_log_files
+    def set_group_name_on_processes
       processes.each { |p| p.group_name = name }
     end
 
