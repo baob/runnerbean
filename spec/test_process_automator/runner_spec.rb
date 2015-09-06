@@ -47,13 +47,31 @@ module TestProcessAutomator
               allow(ProcessGroup).to receive(:new).with(the_frontend).and_return(a_process_group)
             end
 
-            it 'returns process_group initialised with worker and frontend' do
+            it 'returns process_group initialised with frontend' do
               expect(ProcessGroup).to receive(:new).with(the_frontend).and_return(a_process_group)
               expect(subject).to be(a_process_group)
             end
 
             it 'calls .start! on the process group' do
               expect(a_process_group).to receive(:start!)
+              subject
+            end
+          end
+
+          describe '#kill!(:worker)' do
+            subject { runner.kill!(:worker) }
+            before do
+              allow(a_process_group).to receive(:kill!)
+              allow(ProcessGroup).to receive(:new).with(the_worker).and_return(a_process_group)
+            end
+
+            it 'returns process_group initialised with worker' do
+              expect(ProcessGroup).to receive(:new).with(the_worker).and_return(a_process_group)
+              expect(subject).to be(a_process_group)
+            end
+
+            it 'calls .kill! on the process group' do
+              expect(a_process_group).to receive(:kill!)
               subject
             end
           end
