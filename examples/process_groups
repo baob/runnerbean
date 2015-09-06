@@ -50,6 +50,7 @@ tpa.add_process(frontend: Frontend.new,
                 backend:  Backend.new)
 
 smoke_test_group = tpa.group(:frontend, :backend)
+smoke_test_group.name = ('smoke_test')
 backend = tpa.group(:backend)
 
 backend.start!

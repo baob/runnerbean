@@ -16,10 +16,16 @@ module TestProcessAutomator
     end
 
     def name
-      @name ||= 'default_process_group_name'
+      @name ||= default_process_group_name
     end
 
     private
+
+    def default_process_group_name
+      return processes.map(&:name).join('_and_')
+    rescue
+      'default_process_group_name'
+    end
 
     def generic_command(command)
       request_log_files

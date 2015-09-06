@@ -9,6 +9,7 @@ module TestProcessAutomator
     let(:the_frontend_start) { 'start_that_frontend' }
     let(:the_frontend) do
       double('the frontend',
+             name: 'name_of_the_frontend',
              kill_command: the_frontend_kill,
              start_command: the_frontend_start,
              sleep_after_start: 7,
@@ -19,6 +20,7 @@ module TestProcessAutomator
     let(:the_worker_kill) { 'kill_that_worker' }
     let(:the_worker) do
       double('the worker',
+             name: 'name_of_the_worker',
              kill_command: the_worker_kill,
              sleep_after_kill: 4,
              :'log_file_prefix=' => nil
@@ -46,6 +48,10 @@ module TestProcessAutomator
     context 'with a :frontend process injected' do
       let(:processes) { [the_frontend] }
 
+      describe '#name' do
+        specify { expect(group.name).to eq(the_frontend.name) }
+      end
+
       describe '#kill!' do
         subject { group.kill! }
 
@@ -68,8 +74,8 @@ module TestProcessAutomator
           subject
         end
 
-        it 'instructs process to log to logfile' do
-          expect(the_frontend).to receive(:log_file_prefix=).with(name)
+        it 'instructs process to log to logfile, prefixed with group name' do
+          expect(the_frontend).to receive(:log_file_prefix=).with(group.name)
           subject
         end
 
@@ -82,6 +88,12 @@ module TestProcessAutomator
       context 'with a :worker process injected' do
         let(:processes) { [the_frontend, the_worker] }
 
+        describe '#name' do
+          let(:expected_name) { [the_frontend.name, the_worker.name].join('_and_') }
+
+          specify { expect(group.name).to eq(expected_name) }
+        end
+
         describe '#kill!' do
           subject { group.kill! }
 
@@ -93,6 +105,15 @@ module TestProcessAutomator
           it 'runs shell command specified for frontend' do
             expect(Kernel).to receive(:system).with(the_frontend_kill)
             subject
+          end
+        end
+
+        context 'and with the name overridden' do
+          describe '#name' do
+            let(:new_name) { 'override_name' }
+            before { group.name = new_name }
+
+            specify { expect(group.name).to eq(new_name) }
           end
         end
       end # context 'with a :worker process injected' do
