@@ -1,7 +1,7 @@
-require 'test_process_automator'
-require 'test_process_automator/runner'
+require 'runnerbean'
+require 'runnerbean/runner'
 
-module TestProcessAutomator
+module Runnerbean
   RSpec.describe Runner do
     let(:runner) { described_class.new(init_options) }
     let(:init_options) { { name: the_runner_name } }
@@ -80,7 +80,7 @@ module TestProcessAutomator
             subject { runner.start!(:backend) }
 
             it 'raises not defined exception' do
-              expect { subject }.to raise_error(::TestProcessAutomator::ProcessNotDefined)
+              expect { subject }.to raise_error(::Runnerbean::ProcessNotDefined)
             end
           end
         end

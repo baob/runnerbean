@@ -3,7 +3,7 @@
 APP_ROOT = File.expand_path('..', __dir__)
 $LOAD_PATH.unshift(File.join(APP_ROOT, 'lib'))
 
-require 'test_process_automator'
+require 'runnerbean'
 
 class MyTestProcess
   attr_accessor :log_file_prefix
@@ -27,7 +27,7 @@ class MyTestProcess
   end
 end
 
-runner = TestProcessAutomator.tpa_runner('simple')
+runner = Runnerbean.runner('simple')
 runner.add_process(my_process: MyTestProcess.new)
 
 runner.start!(:my_process)

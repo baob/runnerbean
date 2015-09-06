@@ -1,11 +1,11 @@
-require 'test_process_automator/process_group'
+require 'runnerbean/process_group'
 
-module TestProcessAutomator
+module Runnerbean
   class Runner
     attr_reader :name
 
     def initialize(opts = {})
-      @name = opts[:name] || 'tpa_runner'
+      @name = opts[:name] || 'runner'
     end
 
     def add_process(opts)

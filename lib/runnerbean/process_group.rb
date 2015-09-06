@@ -1,4 +1,4 @@
-module TestProcessAutomator
+module Runnerbean
   class ProcessGroup
     attr_reader :processes
     attr_writer :name
