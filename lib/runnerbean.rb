@@ -1,9 +1,9 @@
 require 'runnerbean/version'
 require 'runnerbean/runner'
 
-module TestProcessAutomator
+module Runnerbean
   def self.tpa_runner(name = 'tpa_runner')
-    TestProcessAutomator::Runner.new(name: name)
+    Runnerbean::Runner.new(name: name)
   end
 
   class ProcessNotDefined < Exception; end

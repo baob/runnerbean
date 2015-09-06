@@ -1,7 +1,7 @@
 require 'runnerbean'
 require 'runnerbean/runner'
 
-module TestProcessAutomator
+module Runnerbean
   RSpec.describe Runner do
     let(:runner) { described_class.new(init_options) }
     let(:init_options) { { name: name } }

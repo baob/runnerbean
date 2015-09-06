@@ -1,6 +1,6 @@
 require 'runnerbean/process_group'
 
-module TestProcessAutomator
+module Runnerbean
   class Runner
     attr_reader :name
 

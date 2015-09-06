@@ -1,7 +1,7 @@
 require 'runnerbean'
 require 'runnerbean/process_group'
 
-module TestProcessAutomator
+module Runnerbean
   RSpec.describe ProcessGroup do
     let(:group) { described_class.new(*processes) }
     let(:name) { 'default_process_group_name' }

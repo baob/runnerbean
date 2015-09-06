@@ -5,7 +5,7 @@ require 'runnerbean/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'runnerbean'
-  spec.version       = TestProcessAutomator::VERSION
+  spec.version       = Runnerbean::VERSION
   spec.authors       = ['baob']
   spec.email         = ['coder@onesandthrees.com']
   spec.summary       = 'Automates starting and stopping processes for testing.'

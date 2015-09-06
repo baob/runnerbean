@@ -1,4 +1,4 @@
-# TestProcessAutomator
+# Runnerbean
 
 Automates starting and stopping processes for testing.
 
