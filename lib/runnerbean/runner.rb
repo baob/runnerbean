@@ -1,4 +1,4 @@
-require 'test_process_automator/process_group'
+require 'runnerbean/process_group'
 
 module TestProcessAutomator
   class Runner

@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'test_process_automator/version'
+require 'runnerbean/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'test_process_automator'
+  spec.name          = 'runnerbean'
   spec.version       = TestProcessAutomator::VERSION
   spec.authors       = ['baob']
   spec.email         = ['coder@onesandthrees.com']

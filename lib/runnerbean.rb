@@ -1,5 +1,5 @@
-require 'test_process_automator/version'
-require 'test_process_automator/runner'
+require 'runnerbean/version'
+require 'runnerbean/runner'
 
 module TestProcessAutomator
   def self.tpa_runner(name = 'tpa_runner')

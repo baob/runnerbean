@@ -1,5 +1,5 @@
-require 'test_process_automator'
-require 'test_process_automator/runner'
+require 'runnerbean'
+require 'runnerbean/runner'
 
 module TestProcessAutomator
   RSpec.describe Runner do

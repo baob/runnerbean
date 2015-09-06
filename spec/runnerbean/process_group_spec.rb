@@ -1,5 +1,5 @@
-require 'test_process_automator'
-require 'test_process_automator/process_group'
+require 'runnerbean'
+require 'runnerbean/process_group'
 
 module TestProcessAutomator
   RSpec.describe ProcessGroup do

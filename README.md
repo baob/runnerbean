@@ -7,7 +7,7 @@ Automates starting and stopping processes for testing.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'test_process_automator'
+gem 'runnerbean'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install test_process_automator
+    $ gem install runnerbean
 
 ## Usage
 
@@ -24,7 +24,7 @@ See examples folder for examples of use.
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/test_process_automator/fork )
+1. Fork it ( https://github.com/[my-github-username]/runnerbean/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
