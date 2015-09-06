@@ -14,7 +14,7 @@ module Runnerbean
              start_command: the_frontend_start,
              sleep_after_start: 7,
              sleep_after_kill: 2,
-             :'log_file_prefix=' => nil
+             :'group_name=' => nil
             )
     end
     let(:the_worker_kill) { 'kill_that_worker' }
@@ -22,7 +22,7 @@ module Runnerbean
       double('the worker',
              kill_command: the_worker_kill,
              sleep_after_kill: 4,
-             :'log_file_prefix=' => nil
+             :'group_name=' => nil
             )
     end
     before { allow(Kernel).to receive(:system).with(anything) }

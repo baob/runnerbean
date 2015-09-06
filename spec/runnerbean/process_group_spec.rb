@@ -14,7 +14,7 @@ module Runnerbean
              start_command: the_frontend_start,
              sleep_after_start: 7,
              sleep_after_kill: 2,
-             :'log_file_prefix=' => nil
+             :'group_name=' => nil
             )
     end
     let(:the_worker_kill) { 'kill_that_worker' }
@@ -23,7 +23,7 @@ module Runnerbean
              name: 'name_of_the_worker',
              kill_command: the_worker_kill,
              sleep_after_kill: 4,
-             :'log_file_prefix=' => nil
+             :'group_name=' => nil
             )
     end
     before { allow(Kernel).to receive(:system).with(anything) }
@@ -75,7 +75,7 @@ module Runnerbean
         end
 
         it 'instructs process to log to logfile, prefixed with group name' do
-          expect(the_frontend).to receive(:log_file_prefix=).with(group.name)
+          expect(the_frontend).to receive(:group_name=).with(group.name)
           subject
         end
 

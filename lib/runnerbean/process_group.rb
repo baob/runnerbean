@@ -38,7 +38,7 @@ module Runnerbean
     end
 
     def request_log_files
-      processes.each { |p| p.log_file_prefix = name }
+      processes.each { |p| p.group_name = name }
     end
 
     def find_commands(command)
