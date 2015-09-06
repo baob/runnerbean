@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+
+APP_ROOT = File.expand_path('..', __dir__)
+$LOAD_PATH.unshift(File.join(APP_ROOT, 'lib'))
+
+require 'test_process_automator'
+
+class Frontend
+  attr_accessor :log_file_prefix
+
+  def start_command
+    "echo 'This would be the Frontend start command'"
+  end
+
+  def sleep_after_start
+    1
+  end
+
+  def kill_command
+    "echo 'This would be the Frontend kill command'"
+  end
+
+  def sleep_after_kill
+    1
+  end
+end
+
+class Backend
+  attr_accessor :log_file_prefix
+
+  def start_command
+    "echo 'This would be the Backend start command'"
+  end
+
+  def sleep_after_start
+    1
+  end
+
+  def kill_command
+    "echo 'This would be the Backend kill command'"
+  end
+
+  def sleep_after_kill
+    1
+  end
+end
+
+tpa = TestProcessAutomator
+tpa.add_process(frontend: Frontend.new,
+                backend:  Backend.new)
+
+smoke_test_group = tpa.group(:frontend, :backend)
+backend = tpa.group(:backend)
+
+backend.start!
+puts 'Backend only Tests would run here ...'
+backend.kill!
+
+puts "\n .... and .... \n\n"
+
+smoke_test_group.start!
+puts 'combined Frontend and Backend Tests would run here ...'
+smoke_test_group.kill!
