@@ -1,3 +1,5 @@
+require 'test_process_automator/process_group'
+
 module TestProcessAutomator
   class Runner
     attr_reader :name
@@ -13,51 +15,26 @@ module TestProcessAutomator
     end
 
     def kill!(*process_names)
-      generic_command(:kill, *process_names)
+      pg = process_group(*process_names)
+      pg.name = name
+      pg.kill!
     end
 
     def start!(*process_names)
-      generic_command(:start, *process_names)
+      pg = process_group(*process_names)
+      pg.name = name
+      pg.start!
     end
 
     private
 
-    def generic_command(command, *process_names)
+    def process_group(*process_names)
       processes = processes_from_names(*process_names)
-
-      request_log_files(*processes)
-
-      commands = find_commands(command, *processes)
-      execute(*commands)
-
-      sleep_times = find_sleep_times(command, *processes)
-      sleep_for(*sleep_times)
-    end
-
-    def sleep_for(*sleep_times)
-      Kernel.sleep(sleep_times.max) unless sleep_times.size == 0
-    end
-
-    def find_sleep_times(command, *processes)
-      sleep_getter = "sleep_after_#{command}".to_sym
-      processes.map(&sleep_getter).compact
-    end
-
-    def execute(*commands)
-      commands.map { |k| Kernel.system(k) } unless commands.size == 0
-    end
-
-    def find_commands(command, *processes)
-      command_getter = "#{command}_command".to_sym
-      processes.map(&command_getter).compact
+      ProcessGroup.new(*processes)
     end
 
     def processes_from_names(*process_names)
       process_names.map { |pn| process_from_name(pn) }
-    end
-
-    def request_log_files(*processes)
-      processes.each { |p| p.log_file_prefix = name }
     end
 
     def process_from_name(name)
