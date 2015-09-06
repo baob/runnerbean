@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+APP_ROOT = File.expand_path('..', __dir__)
+$LOAD_PATH.unshift(File.join(APP_ROOT, 'lib'))
+
+require 'test_process_automator'
+
+class MyTestProcess
+
+  attr_accessor :log_file_prefix
+
+  def start_command
+    "echo 'I am the start command, logging to prefix of #{log_file_prefix} with a following delay of #{sleep_after_start}'"
+  end
+
+  def sleep_after_start
+    7
+  end
+
+  def kill_command
+    "echo 'I am the kill command, logging to prefix of #{log_file_prefix} with a following delay of #{sleep_after_kill}'"
+  end
+
+  def sleep_after_kill
+    4
+  end
+end
+
+runner = TestProcessAutomator.tpa_runner('simple')
+runner.add_process(my_process: MyTestProcess.new)
+
+runner.start!(:my_process)
+runner.kill!(:my_process)
+
