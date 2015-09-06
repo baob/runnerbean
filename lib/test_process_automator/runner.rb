@@ -24,6 +24,7 @@ module TestProcessAutomator
       pg = process_group(*process_names)
       pg.name = name
       pg.start!
+      pg # allows chaining
     end
 
     def group(*process_names)
