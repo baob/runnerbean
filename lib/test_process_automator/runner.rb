@@ -27,7 +27,6 @@ module TestProcessAutomator
     end
 
     def group(*process_names)
-      # TODO: untested
       process_group(*process_names)
     end
 
