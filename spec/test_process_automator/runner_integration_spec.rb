@@ -48,24 +48,6 @@ module TestProcessAutomator
             expect(Kernel).to receive(:system).with(the_frontend_start)
             subject
           end
-
-          it 'instructs process to log to logfile' do
-            expect(the_frontend).to receive(:log_file_prefix=).with(name)
-            subject
-          end
-
-          it 'sleeps for specified time' do
-            expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_start)
-            subject
-          end
-        end
-
-        describe '#start!(:backend)' do
-          subject { runner.start!(:backend) }
-
-          it 'raises not defined exception' do
-            expect { subject }.to raise_error(::TestProcessAutomator::ProcessNotDefined)
-          end
         end
 
         context 'with a :worker process injected' do

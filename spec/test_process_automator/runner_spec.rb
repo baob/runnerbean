@@ -75,6 +75,14 @@ module TestProcessAutomator
               subject
             end
           end
+
+          describe '#start!(:backend)' do
+            subject { runner.start!(:backend) }
+
+            it 'raises not defined exception' do
+              expect { subject }.to raise_error(::TestProcessAutomator::ProcessNotDefined)
+            end
+          end
         end
       end
     end
