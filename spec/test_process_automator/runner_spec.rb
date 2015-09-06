@@ -12,7 +12,7 @@ RSpec.describe TestProcessAutomator::Runner do
            start_command: the_frontend_start,
            sleep_after_start: 7,
            sleep_after_kill: 2,
-           log_file_prefix: nil
+           :'log_file_prefix=' => nil
           )
   end
   let(:the_worker_kill) { 'kill_that_worker' }
@@ -20,7 +20,7 @@ RSpec.describe TestProcessAutomator::Runner do
     double('the worker',
            kill_command: the_worker_kill,
            sleep_after_kill: 4,
-           log_file_prefix: nil
+           :'log_file_prefix=' => nil
           )
   end
   before { allow(runner).to receive(:system).with(anything) }
@@ -72,7 +72,7 @@ RSpec.describe TestProcessAutomator::Runner do
         end
 
         it 'instructs process to log to logfile' do
-          expect(the_frontend).to receive(:log_file_prefix).with(name)
+          expect(the_frontend).to receive(:log_file_prefix=).with(name)
           subject
         end
 

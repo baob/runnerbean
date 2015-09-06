@@ -57,7 +57,7 @@ module TestProcessAutomator
     end
 
     def request_log_files(*processes)
-      processes.each { |p| p.log_file_prefix(name) }
+      processes.each { |p| p.log_file_prefix = name }
     end
 
     def process_from_name(name)
