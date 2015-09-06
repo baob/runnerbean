@@ -5,7 +5,7 @@ module Runnerbean
     attr_reader :name
 
     def initialize(opts = {})
-      @name = opts[:name] || 'tpa_runner'
+      @name = opts[:name] || 'runner'
     end
 
     def add_process(opts)

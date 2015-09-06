@@ -27,7 +27,7 @@ class MyTestProcess
   end
 end
 
-runner = Runnerbean.tpa_runner('simple')
+runner = Runnerbean.runner('simple')
 runner.add_process(my_process: MyTestProcess.new)
 
 runner.start!(:my_process)

@@ -45,7 +45,7 @@ class Backend
   end
 end
 
-runner = Runnerbean.tpa_runner('front_and_back')
+runner = Runnerbean.runner('front_and_back')
 runner.add_process(frontend: Frontend.new,
                    backend:  Backend.new)
 
