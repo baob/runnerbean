@@ -23,8 +23,8 @@ RSpec.describe TestProcessAutomator::Runner do
            :'log_file_prefix=' => nil
           )
   end
-  before { allow(runner).to receive(:system).with(anything) }
-  before { allow(runner).to receive(:sleep).with(anything) }
+  before { allow(Kernel).to receive(:system).with(anything) }
+  before { allow(Kernel).to receive(:sleep).with(anything) }
 
   describe 'initalised with a name' do
     let(:name) { 'a_name' }
@@ -58,7 +58,7 @@ RSpec.describe TestProcessAutomator::Runner do
         subject { runner.kill!(:frontend) }
 
         it 'runs shell command specified for frontend' do
-          expect(runner).to receive(:system).with(the_frontend_kill)
+          expect(Kernel).to receive(:system).with(the_frontend_kill)
           subject
         end
       end
@@ -67,7 +67,7 @@ RSpec.describe TestProcessAutomator::Runner do
         subject { runner.start!(:frontend) }
 
         it 'runs shell command specified for frontend' do
-          expect(runner).to receive(:system).with(the_frontend_start)
+          expect(Kernel).to receive(:system).with(the_frontend_start)
           subject
         end
 
@@ -77,7 +77,7 @@ RSpec.describe TestProcessAutomator::Runner do
         end
 
         it 'sleeps for specified time' do
-          expect(runner).to receive(:sleep).with(the_frontend.sleep_after_start)
+          expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_start)
           subject
         end
       end
@@ -97,12 +97,12 @@ RSpec.describe TestProcessAutomator::Runner do
           subject { runner.kill!(:worker) }
 
           it 'runs shell command specified for worker' do
-            expect(runner).to receive(:system).with(the_worker_kill)
+            expect(Kernel).to receive(:system).with(the_worker_kill)
             subject
           end
 
           it 'does not runs shell command specified for frontend' do
-            expect(runner).to_not receive(:system).with(the_frontend_kill)
+            expect(Kernel).to_not receive(:system).with(the_frontend_kill)
             subject
           end
         end
@@ -111,12 +111,12 @@ RSpec.describe TestProcessAutomator::Runner do
           subject { runner.kill!(:worker, :frontend) }
 
           it 'runs shell command specified for worker' do
-            expect(runner).to receive(:system).with(the_worker_kill)
+            expect(Kernel).to receive(:system).with(the_worker_kill)
             subject
           end
 
           it 'runs shell command specified for frontend' do
-            expect(runner).to receive(:system).with(the_frontend_kill)
+            expect(Kernel).to receive(:system).with(the_frontend_kill)
             subject
           end
         end

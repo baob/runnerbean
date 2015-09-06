@@ -35,7 +35,7 @@ module TestProcessAutomator
     end
 
     def sleep_for(*sleep_times)
-      sleep(sleep_times.max) unless sleep_times.size == 0
+      Kernel.sleep(sleep_times.max) unless sleep_times.size == 0
     end
 
     def find_sleep_times(command, *processes)
@@ -44,7 +44,7 @@ module TestProcessAutomator
     end
 
     def execute(*commands)
-      commands.map { |k| system(k) } unless commands.size == 0
+      commands.map { |k| Kernel.system(k) } unless commands.size == 0
     end
 
     def find_commands(command, *processes)
