@@ -26,6 +26,11 @@ module TestProcessAutomator
       pg.start!
     end
 
+    def group(*process_names)
+      # TODO: untested
+      process_group(*process_names)
+    end
+
     private
 
     def process_group(*process_names)

@@ -45,7 +45,7 @@ class Backend
   end
 end
 
-tpa = TestProcessAutomator
+tpa = TestProcessAutomator.tpa_runner
 tpa.add_process(frontend: Frontend.new,
                 backend:  Backend.new)
 
