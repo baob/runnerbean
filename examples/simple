@@ -1,31 +1,9 @@
 #!/usr/bin/env ruby
 
-APP_ROOT = File.expand_path('..', __dir__)
-$LOAD_PATH.unshift(File.join(APP_ROOT, 'lib'))
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 
 require 'runnerbean'
-
-class MyTestProcess
-  attr_accessor :group_name
-
-  def start_command
-    "echo 'This would be the start command, logging to prefix of #{group_name}' &&" \
-    "echo '... with a following delay of #{sleep_after_start}'"
-  end
-
-  def sleep_after_start
-    7
-  end
-
-  def kill_command
-    "echo 'This would be the kill command, logging to prefix of #{group_name}' &&" \
-    "echo '... with a following delay of #{sleep_after_kill}'"
-  end
-
-  def sleep_after_kill
-    4
-  end
-end
+require_relative 'processes/my_test_process'
 
 runner = Runnerbean.runner('simple')
 runner.add_process(my_process: MyTestProcess.new)

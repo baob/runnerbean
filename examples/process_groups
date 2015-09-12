@@ -1,49 +1,10 @@
 #!/usr/bin/env ruby
 
-APP_ROOT = File.expand_path('..', __dir__)
-$LOAD_PATH.unshift(File.join(APP_ROOT, 'lib'))
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 
 require 'runnerbean'
-
-class Frontend
-  attr_accessor :group_name
-
-  def start_command
-    "echo 'This would be the Frontend start command'"
-  end
-
-  def sleep_after_start
-    1
-  end
-
-  def kill_command
-    "echo 'This would be the Frontend kill command'"
-  end
-
-  def sleep_after_kill
-    1
-  end
-end
-
-class Backend
-  attr_accessor :group_name
-
-  def start_command
-    "echo 'This would be the Backend start command'"
-  end
-
-  def sleep_after_start
-    1
-  end
-
-  def kill_command
-    "echo 'This would be the Backend kill command'"
-  end
-
-  def sleep_after_kill
-    1
-  end
-end
+require_relative 'processes/frontend'
+require_relative 'processes/backend'
 
 runner = Runnerbean.runner
 runner.add_process(frontend: Frontend.new,
