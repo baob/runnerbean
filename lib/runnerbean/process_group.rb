@@ -19,6 +19,10 @@ module Runnerbean
       @name ||= default_process_group_name
     end
 
+    def ensure_started!
+      start!
+    end
+
     private
 
     def default_process_group_name
