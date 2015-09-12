@@ -20,6 +20,7 @@ module Runnerbean
     end
 
     def ensure_started!
+      kill!
       start!
     end
 

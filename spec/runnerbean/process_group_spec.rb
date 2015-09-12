@@ -105,13 +105,22 @@ module Runnerbean
             expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_start)
             subject
           end
-
         end
 
         context 'when process is already running' do
           before { allow(the_frontend).to receive(:running?).and_return(true) }
 
-          it 'runs shell command specified for frontend' do
+          it 'runs kill shell command specified for frontend' do
+            expect(Kernel).to receive(:system).with(the_frontend_kill)
+            subject
+          end
+
+          it 'sleeps for specified time after kill' do
+            expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_kill)
+            subject
+          end
+
+          it 'runs shell start command specified for frontend' do
             expect(Kernel).to receive(:system).with(the_frontend_start)
             subject
           end
@@ -121,11 +130,10 @@ module Runnerbean
             subject
           end
 
-          it 'sleeps for specified time' do
+          it 'sleeps for specified time after start' do
             expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_start)
             subject
           end
-
         end
       end
 
