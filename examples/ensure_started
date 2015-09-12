@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
+
+require 'runnerbean'
+require_relative 'processes/frontend'
+require_relative 'processes/backend'
+
+runner = Runnerbean.runner
+runner.add_process(frontend: Frontend.new,
+                   backend:  Backend.new)
+
+smoke_test_group = runner.group(:frontend, :backend)
+smoke_test_group.name = ('smoke_test')
+
+smoke_test_group.ensure_started!
+puts 'combined Frontend and Backend Tests would run here ...'
+smoke_test_group.kill!

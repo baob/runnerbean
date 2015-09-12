@@ -16,4 +16,8 @@ class Backend
   def sleep_after_kill
     1
   end
+
+  def running?
+    false
+  end
 end

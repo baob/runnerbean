@@ -16,4 +16,8 @@ class Frontend
   def sleep_after_kill
     1
   end
+
+  def running?
+    true
+  end
 end
