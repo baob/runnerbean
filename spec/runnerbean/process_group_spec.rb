@@ -55,34 +55,13 @@ module Runnerbean
       describe '#kill!' do
         subject { group.kill! }
 
-        it 'runs shell command specified for frontend' do
-          expect(Kernel).to receive(:system).with(the_frontend_kill)
-          subject
-        end
-
-        it 'sleeps for specified time' do
-          expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_kill)
-          subject
-        end
+        it_behaves_like 'frontend killer'
       end
 
       describe '#start!' do
         subject { group.start! }
 
-        it 'runs shell command specified for frontend' do
-          expect(Kernel).to receive(:system).with(the_frontend_start)
-          subject
-        end
-
-        it 'instructs process to log to logfile, prefixed with group name' do
-          expect(the_frontend).to receive(:group_name=).with(group.name)
-          subject
-        end
-
-        it 'sleeps for specified time' do
-          expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_start)
-          subject
-        end
+        it_behaves_like 'frontend starter'
       end
 
       describe '#ensure_started!' do
@@ -96,49 +75,14 @@ module Runnerbean
             subject
           end
 
-          it 'runs shell command specified for frontend' do
-            expect(Kernel).to receive(:system).with(the_frontend_start)
-            subject
-          end
-
-          it 'instructs process to log to logfile, prefixed with group name' do
-            expect(the_frontend).to receive(:group_name=).with(group.name)
-            subject
-          end
-
-          it 'sleeps for specified time' do
-            expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_start)
-            subject
-          end
+          it_behaves_like 'frontend starter'
         end
 
         context 'when process is already running' do
           before { allow(the_frontend).to receive(:running?).and_return(true) }
 
-          it 'runs kill shell command specified for frontend' do
-            expect(Kernel).to receive(:system).with(the_frontend_kill)
-            subject
-          end
-
-          it 'sleeps for specified time after kill' do
-            expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_kill)
-            subject
-          end
-
-          it 'runs shell start command specified for frontend' do
-            expect(Kernel).to receive(:system).with(the_frontend_start)
-            subject
-          end
-
-          it 'instructs process to log to logfile, prefixed with group name' do
-            expect(the_frontend).to receive(:group_name=).with(group.name)
-            subject
-          end
-
-          it 'sleeps for specified time after start' do
-            expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_start)
-            subject
-          end
+          it_behaves_like 'frontend killer'
+          it_behaves_like 'frontend starter'
         end
       end
 

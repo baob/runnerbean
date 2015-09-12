@@ -19,6 +19,8 @@
 APP_ROOT = File.expand_path('..', __dir__)
 $LOAD_PATH.unshift(File.join(APP_ROOT, 'lib'))
 
+Dir[File.join(APP_ROOT, 'spec/support/**/*.rb')].each(&method(:require))
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
