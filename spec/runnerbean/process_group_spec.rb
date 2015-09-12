@@ -91,6 +91,11 @@ module Runnerbean
         context 'when process is not running' do
           before { allow(the_frontend).to receive(:running?).and_return(false) }
 
+          it 'does not runs kill shell command specified for frontend' do
+            expect(Kernel).to_not receive(:system).with(the_frontend_kill)
+            subject
+          end
+
           it 'runs shell command specified for frontend' do
             expect(Kernel).to receive(:system).with(the_frontend_start)
             subject
