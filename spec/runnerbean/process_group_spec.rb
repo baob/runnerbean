@@ -105,6 +105,27 @@ module Runnerbean
             expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_start)
             subject
           end
+
+        end
+
+        context 'when process is already running' do
+          before { allow(the_frontend).to receive(:running?).and_return(true) }
+
+          it 'runs shell command specified for frontend' do
+            expect(Kernel).to receive(:system).with(the_frontend_start)
+            subject
+          end
+
+          it 'instructs process to log to logfile, prefixed with group name' do
+            expect(the_frontend).to receive(:group_name=).with(group.name)
+            subject
+          end
+
+          it 'sleeps for specified time' do
+            expect(Kernel).to receive(:sleep).with(the_frontend.sleep_after_start)
+            subject
+          end
+
         end
       end
 
