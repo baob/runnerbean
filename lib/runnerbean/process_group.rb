@@ -19,6 +19,11 @@ module Runnerbean
       @name ||= default_process_group_name
     end
 
+    def ensure_started!
+      kill_if_running!
+      start!
+    end
+
     private
 
     def default_process_group_name
@@ -39,6 +44,12 @@ module Runnerbean
 
     def set_group_name_on_processes
       processes.each { |p| p.group_name = name }
+    end
+
+    def kill_if_running!
+      running_processes = processes.select(&:running?)
+      kill_group = self.class.new(*running_processes)
+      kill_group.kill!
     end
 
     def find_commands(command)
