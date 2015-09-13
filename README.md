@@ -2,6 +2,9 @@
 
 Automates starting and stopping processes for testing.
 
+[![Travis Build
+Status](https://travis-ci.org/baob/runnerbean.svg?branch=master)](https://travis-ci.org/baob/runnerbean)
+
 ## Installation
 
 Add this line to your application's Gemfile:
