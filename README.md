@@ -8,6 +8,8 @@ Status](https://travis-ci.org/baob/runnerbean.svg?branch=master)](https://travis
 [![Code
 Climate](https://codeclimate.com/github/baob/runnerbean/badges/gpa.svg)](https://codeclimate.com/github/baob/runnerbean)
 
+[![Test Coverage](https://codeclimate.com/github/baob/runnerbean/badges/coverage.svg)](https://codeclimate.com/github/baob/runnerbean/coverage)
+
 [![Dependency Status][DS img]][Dependency Status]
 
 [Dependency Status]: https://gemnasium.com/baob/runnerbean
