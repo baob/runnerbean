@@ -5,6 +5,9 @@ Automates starting and stopping processes for testing.
 [![Travis Build
 Status](https://travis-ci.org/baob/runnerbean.svg?branch=master)](https://travis-ci.org/baob/runnerbean)
 
+[![Code
+Climate](https://codeclimate.com/github/baob/runnerbean/badges/gpa.svg)](https://codeclimate.com/github/baob/runnerbean)
+
 [![Dependency Status][DS img]][Dependency Status]
 
 [Dependency Status]: https://gemnasium.com/baob/runnerbean
